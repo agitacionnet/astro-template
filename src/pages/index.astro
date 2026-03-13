@@ -1,11 +1,49 @@
 ---
-import Welcome from '../components/Welcome.astro';
+// src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import About from '../components/About.astro';
+import Experience from '../components/Experience.astro';
+import Projects from '../components/Projects.astro';
+import Testimonial from '../components/Testimonial.astro';
+import FAQ from '../components/FAQ.astro';
+import Footer from '../components/Footer.astro';
+import { getHomepage, getStrapiImageUrl } from '../lib/strapi';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Obtiene datos de Strapi (si falla, usa los valores por defecto del componente)
+const homepage = await getHomepage();
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={homepage?.heroTitle ?? 'Airfolio — Portfolio'}>
+  <Navbar currentPath={Astro.url.pathname} />
+  <main>
+    <Hero
+      name={homepage?.heroGreeting ?? undefined}
+      title={homepage?.heroTitle ?? undefined}
+      subtitle={homepage?.heroSubtitle ?? undefined}
+      heroImage={homepage?.heroImage
+        ? getStrapiImageUrl(homepage.heroImage, 'large')
+        : undefined}
+      heroImageAlt={homepage?.heroGreeting ?? undefined}
+      ctaPrimary={homepage?.heroPrimaryLabel
+        ? { label: homepage.heroPrimaryLabel, href: '/contact' }
+        : undefined}
+      ctaSecondary={homepage?.heroSecondaryLabel
+        ? { label: homepage.heroSecondaryLabel, href: '/portfolio' }
+        : undefined}
+    />
+    <Services
+  label={homepage?.servicesLabel ?? undefined}
+  title={homepage?.servicesTitle ?? undefined}
+  description={homepage?.servicesDescription ?? undefined}
+/>
+    <About />
+    <Experience />
+    <Projects />
+    <Testimonial />
+    <FAQ />
+  </main>
+  <Footer />
 </Layout>

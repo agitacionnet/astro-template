@@ -1,0 +1,262 @@
+---
+// src/components/About.astro
+
+export interface Stat {
+  value: string;
+  label: string;
+}
+
+export interface Props {
+  label?: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  stats?: Stat[];
+  cta?: { label: string; href: string };
+}
+
+const {
+  label       = 'About me',
+  title       = 'Who is responsible for all of this impressive effort?',
+  description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.',
+  image       = '/images/about-photo.jpg',
+  imageAlt    = 'Designer working on wireframes',
+  stats       = [
+    { value: '100+', label: 'Project completed' },
+    { value: '98%',  label: 'Client satisfied'  },
+    { value: '80%',  label: 'Design Project'    },
+  ],
+  cta         = { label: 'About me', href: '/about' },
+} = Astro.props;
+---
+
+<section class="about">
+
+  <!-- Decorativos de fondo -->
+  <span class="about__deco about__deco--circle-bl" aria-hidden="true"></span>
+  <span class="about__deco about__deco--circle-tr" aria-hidden="true"></span>
+
+  <div class="about__inner">
+
+    <!-- Imagen izquierda -->
+    <div class="about__image-wrap">
+      <img
+        src={image}
+        alt={imageAlt}
+        class="about__image"
+        width="600"
+        height="640"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- Contenido derecha -->
+    <div class="about__content">
+
+      <div class="about__text">
+        <p class="about__label">{label}</p>
+        <h2 class="about__title">{title}</h2>
+        <p class="about__description">{description}</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="about__stats">
+        {stats.map(stat => (
+          <div class="about__stat">
+            <span class="about__stat-value">{stat.value}</span>
+            <span class="about__stat-label">{stat.label}</span>
+          </div>
+        ))}
+      </div>
+
+      <!-- CTA -->
+      <div class="about__actions">
+        <a href={cta.href} class="btn-primary">{cta.label}</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    position: relative;
+    width: 100%;
+    background-color: var(--color-white);
+    overflow: hidden;
+  }
+
+  .about__inner {
+    max-width: var(--width-container);
+    margin-inline: auto;
+    padding-inline: var(--spacing-64);
+    padding-block: var(--spacing-112);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-80);
+  }
+
+  /* ── Imagen ────────────────────────────── */
+  .about__image-wrap {
+    flex: 1;
+    min-width: 0;
+    height: 640px;
+    border-radius: var(--radius-xl);     /* 32px */
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .about__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* ── Contenido ─────────────────────────── */
+  .about__content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-24);
+  }
+
+  .about__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-24);
+  }
+
+  .about__label {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);    /* 16px */
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .about__title {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-4xl);     /* 40px */
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.82px;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .about__description {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-md);      /* 18px */
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  /* ── Stats ─────────────────────────────── */
+  .about__stats {
+    display: flex;
+    align-items: stretch;
+    gap: var(--spacing-60);
+    padding-block: var(--spacing-8);
+  }
+
+  .about__stat {
+    background-color: var(--color-blue-2);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-12);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+    min-width: 120px;
+  }
+
+  .about__stat-value {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-3xl);     /* 36px */
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.82px;
+    color: var(--color-black);
+  }
+
+  .about__stat-label {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);    /* 16px */
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-black);
+  }
+
+  /* ── CTA ───────────────────────────────── */
+  .about__actions {
+    padding-top: var(--spacing-16);
+  }
+
+  /* ── Decorativos ───────────────────────── */
+  .about__deco {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  /* Círculo bottom-left */
+  .about__deco--circle-bl {
+    bottom: 80px;
+    left: -40px;
+    width: 150px;
+    height: 150px;
+    border: 3px solid var(--color-blue-6);
+    opacity: 0.5;
+    transform: rotate(-30deg);
+  }
+
+  /* Círculo top-right (semi-transparente) */
+  .about__deco--circle-tr {
+    top: 35px;
+    left: 50%;
+    width: 150px;
+    height: 130px;
+    border: 3px solid var(--color-blue-6);
+    opacity: 0.25;
+    transform: rotate(25deg);
+  }
+
+  /* ── Responsive ────────────────────────── */
+  @media (max-width: 1024px) {
+    .about__inner {
+      padding-inline: var(--spacing-40);
+      gap: var(--spacing-48);
+    }
+    .about__image-wrap {
+      height: 480px;
+    }
+    .about__title {
+      font-size: var(--font-size-3xl);
+    }
+    .about__stats {
+      gap: var(--spacing-24);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about__inner {
+      flex-direction: column;
+      padding-inline: var(--spacing-24);
+      padding-block: var(--spacing-64);
+    }
+    .about__image-wrap {
+      width: 100%;
+      height: 360px;
+    }
+    .about__deco {
+      display: none;
+    }
+  }
+</style>

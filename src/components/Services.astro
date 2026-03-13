@@ -1,0 +1,259 @@
+---
+// src/components/Services.astro
+
+export interface Service {
+  icon: string;       // ruta al SVG/PNG exportado desde Figma
+  iconAlt: string;
+  title: string;
+  description: string;
+}
+
+export interface Props {
+  label?: string;
+  title?: string;
+  description?: string;
+  services?: Service[];
+  ctaPrimary?: { label: string; href: string };
+  ctaSecondary?: { label: string; href: string };
+}
+
+const {
+  label       = 'Our Services',
+  title       = 'Take a look at the variety of services I offer.',
+  description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero',
+  services    = [
+    {
+      icon:        '/icons/service-uiux.svg',
+      iconAlt:     'UI UX Design icon',
+      title:       'UIUX Design',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.',
+    },
+    {
+      icon:        '/icons/service-webflow.svg',
+      iconAlt:     'Webflow development icon',
+      title:       'Webflow development',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.',
+    },
+    {
+      icon:        '/icons/service-marketing.svg',
+      iconAlt:     'Marketing icon',
+      title:       'Marketing',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.',
+    },
+    {
+      icon:        '/icons/service-branding.svg',
+      iconAlt:     'Branding icon',
+      title:       'Branding',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.',
+    },
+  ],
+  ctaPrimary  = { label: 'Hire Me',   href: '/contact' },
+  ctaSecondary= { label: 'Portfolio', href: '/portfolio' },
+} = Astro.props;
+---
+
+<section class="services">
+  <div class="services__inner">
+
+    <!-- Cabecera: título a la izquierda, descripción a la derecha -->
+    <div class="services__header">
+      <div class="services__header-left">
+        <p class="services__label">{label}</p>
+        <h2 class="services__title">{title}</h2>
+      </div>
+      <p class="services__description">{description}</p>
+    </div>
+
+    <!-- Grid de tarjetas -->
+    <div class="services__content">
+      <div class="services__grid">
+        {services.map(service => (
+          <div class="service-card">
+            <div class="service-card__icon-wrap">
+              <img
+                src={service.icon}
+                alt={service.iconAlt}
+                width="60"
+                height="60"
+                loading="lazy"
+              />
+            </div>
+            <div class="service-card__body">
+              <h3 class="service-card__title">{service.title}</h3>
+              <p class="service-card__description">{service.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- CTAs -->
+      <div class="services__actions">
+        <a href={ctaPrimary.href}   class="btn-primary">{ctaPrimary.label}</a>
+        <a href={ctaSecondary.href} class="btn-secondary">{ctaSecondary.label}</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .services {
+    width: 100%;
+    background-color: var(--color-blue-3);
+  }
+
+  .services__inner {
+    max-width: var(--width-container);
+    margin-inline: auto;
+    padding-inline: var(--spacing-80);
+    padding-block: var(--spacing-112);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-80);
+  }
+
+  /* ── Cabecera ──────────────────────────── */
+  .services__header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-80);
+  }
+
+  .services__header-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+  }
+
+  .services__label {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .services__title {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-4xl);   /* 40px */
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.82px;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .services__description {
+    flex: 1;
+    font-family: var(--font-sans);
+    font-size: var(--font-size-md);    /* 18px */
+    font-weight: 400;
+    line-height: 1.5;
+    color: #3E3E70;
+    margin: 0;
+    align-self: flex-end;
+  }
+
+  /* ── Grid ──────────────────────────────── */
+  .services__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-48);
+  }
+
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-32);
+    width: 100%;
+  }
+
+  /* ── Tarjeta ───────────────────────────── */
+  .service-card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);       /* 16px */
+    padding: var(--spacing-32) var(--spacing-24);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-24);
+    box-shadow: var(--shadow-md);
+  }
+
+  .service-card__icon-wrap {
+    width: 100px;
+    height: 100px;
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .service-card__icon-wrap img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+  }
+
+  .service-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+  }
+
+  .service-card__title {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-xl);      /* 24px */
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.82px;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .service-card__description {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);    /* 16px */
+    font-weight: 400;
+    line-height: 1.5;
+    color: #3E3E70;
+    margin: 0;
+  }
+
+  /* ── CTAs ──────────────────────────────── */
+  .services__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-16);
+    padding-top: var(--spacing-16);
+  }
+
+  /* ── Responsive ────────────────────────── */
+  @media (max-width: 1024px) {
+    .services__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .services__header {
+      flex-direction: column;
+      gap: var(--spacing-24);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .services__inner {
+      padding-inline: var(--spacing-24);
+      padding-block: var(--spacing-64);
+    }
+    .services__grid {
+      grid-template-columns: 1fr;
+    }
+    .services__title {
+      font-size: var(--font-size-3xl);
+    }
+  }
+</style>

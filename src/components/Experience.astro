@@ -1,0 +1,329 @@
+---
+// src/components/Experience.astro
+
+export interface ExperienceItem {
+  company: string;
+  logo: string;
+  logoAlt: string;
+  role: string;
+  period: string;
+  description: string;
+}
+
+export interface Props {
+  label?: string;
+  title?: string;
+  description?: string;
+  items?: ExperienceItem[];
+  image?: string;
+  imageAlt?: string;
+}
+
+const {
+  label       = 'My Experience',
+  title       = "Protect Your Portfolio with Airfolio's Security Features",
+  description = 'At Airfolio, we prioritize the security of your portfolio. With advanced encryption and secure servers, you can trust that your work is safe with us.',
+  image       = '/images/experience-photo.jpg',
+  imageAlt    = 'Designer working on a layout board',
+  items       = [
+    {
+      company:     'Facebook',
+      logo:        '/icons/company-facebook.png',
+      logoAlt:     'Facebook logo',
+      role:        'Webflow developments',
+      period:      'May 12 2023 – Present',
+      description: 'All data is encrypted to ensure the confidentiality and integrity of your portfolio.',
+    },
+    {
+      company:     'Twitter',
+      logo:        '/icons/company-twitter.png',
+      logoAlt:     'Twitter logo',
+      role:        'UI / UX Designer',
+      period:      'June 18 2022 – Dec 2023',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.',
+    },
+    {
+      company:     'Slack',
+      logo:        '/icons/company-slack.png',
+      logoAlt:     'Slack logo',
+      role:        'Head of Product Design',
+      period:      'June 18 2021 – August 2023',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.',
+    },
+    {
+      company:     'Figma',
+      logo:        '/icons/company-figma.png',
+      logoAlt:     'Figma logo',
+      role:        'Product Designer',
+      period:      'June 18 2020 – Dec 2022',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.',
+    },
+  ],
+} = Astro.props;
+
+const half = Math.ceil(items.length / 2);
+const col1 = items.slice(0, half);
+const col2 = items.slice(half);
+---
+
+<section class="experience">
+
+  <span class="experience__deco experience__deco--tr" aria-hidden="true"></span>
+  <span class="experience__deco experience__deco--bl" aria-hidden="true"></span>
+
+  <div class="experience__inner">
+
+    <!-- Columna izquierda: texto + tarjetas -->
+    <div class="experience__content">
+      <div class="experience__text">
+        <p class="experience__label">{label}</p>
+        <h2 class="experience__title">{title}</h2>
+        <p class="experience__description">{description}</p>
+      </div>
+
+      <div class="experience__grid">
+        <div class="experience__col">
+          {col1.map(item => (
+            <div class="exp-card">
+              <div class="exp-card__header">
+                <img src={item.logo} alt={item.logoAlt} width="48" height="48" class="exp-card__logo" loading="lazy" />
+                <span class="exp-card__company">{item.company}</span>
+              </div>
+              <div class="exp-card__body">
+                <p class="exp-card__role">{item.role}</p>
+                <p class="exp-card__period">{item.period}</p>
+              </div>
+              <p class="exp-card__description">{item.description}</p>
+            </div>
+          ))}
+        </div>
+        <div class="experience__col">
+          {col2.map(item => (
+            <div class="exp-card">
+              <div class="exp-card__header">
+                <img src={item.logo} alt={item.logoAlt} width="48" height="48" class="exp-card__logo" loading="lazy" />
+                <span class="exp-card__company">{item.company}</span>
+              </div>
+              <div class="exp-card__body">
+                <p class="exp-card__role">{item.role}</p>
+                <p class="exp-card__period">{item.period}</p>
+              </div>
+              <p class="exp-card__description">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha: imagen -->
+    <div class="experience__image-wrap">
+      <img src={image} alt={imageAlt} class="experience__image" width="600" height="640" loading="lazy" />
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .experience {
+    position: relative;
+    width: 100%;
+    background-color: var(--color-blue-3);
+    overflow: hidden;
+  }
+
+  .experience__inner {
+    max-width: var(--width-container);
+    margin-inline: auto;
+    padding-inline: var(--spacing-80);
+    padding-block: var(--spacing-112);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-80);
+  }
+
+  /* ── Contenido ─────────────────────────── */
+  .experience__content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-32);
+  }
+
+  .experience__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+  }
+
+  .experience__label {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .experience__title {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-4xl);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.82px;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .experience__description {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-md);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  /* ── Grid de tarjetas ──────────────────── */
+  .experience__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-24);
+  }
+
+  .experience__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-24);
+  }
+
+  /* ── Tarjeta individual ────────────────── */
+  .exp-card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-16);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+  }
+
+  .exp-card__header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-16);
+  }
+
+  .exp-card__logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .exp-card__company {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-black);
+  }
+
+  .exp-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+  }
+
+  .exp-card__role {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.16px;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .exp-card__period {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .exp-card__description {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+    color: #3E3E70;
+    margin: 0;
+  }
+
+  /* ── Imagen ────────────────────────────── */
+  .experience__image-wrap {
+    flex: 1;
+    min-width: 0;
+    height: 640px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .experience__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* ── Decorativos ───────────────────────── */
+  .experience__deco {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  .experience__deco--tr {
+    top: 34px;
+    right: -20px;
+    width: 183px;
+    height: 183px;
+    border: 3px solid var(--color-blue-6);
+    opacity: 0.5;
+    transform: rotate(88deg);
+  }
+
+  .experience__deco--bl {
+    bottom: 80px;
+    left: 45%;
+    width: 183px;
+    height: 150px;
+    border: 3px solid var(--color-blue-6);
+    opacity: 0.4;
+    transform: rotate(176deg);
+  }
+
+  /* ── Responsive ────────────────────────── */
+  @media (max-width: 1024px) {
+    .experience__inner {
+      flex-direction: column;
+      padding-inline: var(--spacing-40);
+    }
+    .experience__image-wrap {
+      width: 100%;
+      height: 360px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .experience__inner { padding-inline: var(--spacing-24); }
+    .experience__grid  { grid-template-columns: 1fr; }
+    .experience__title { font-size: var(--font-size-3xl); }
+    .experience__deco  { display: none; }
+  }
+</style>

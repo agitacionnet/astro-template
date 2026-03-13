@@ -1,0 +1,322 @@
+---
+// src/components/Projects.astro
+
+export interface Project {
+  title: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  tags: string[];
+  href: string;
+}
+
+export interface Props {
+  label?: string;
+  title?: string;
+  subtitle?: string;
+  projects?: Project[];
+  cta?: { label: string; href: string };
+}
+
+const {
+  label    = 'Projects',
+  title    = 'Discover Our Success Stories',
+  subtitle = 'Explore our curated collection of successful projects.',
+  projects = [
+    {
+      title:       'AirFlow X - SaaS Website Template',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.',
+      image:       '/images/project-1.jpg',
+      imageAlt:    'AirFlow X project screenshot',
+      tags:        ['SaaS', 'Webflow', 'UIUX'],
+      href:        '/portfolio/airflow-x',
+    },
+    {
+      title:       'AirExploreX - Tourism Website Template',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.',
+      image:       '/images/project-2.jpg',
+      imageAlt:    'AirExploreX project screenshot',
+      tags:        ['Tag one', 'Tag two', 'Tag three'],
+      href:        '/portfolio/airexplorex',
+    },
+    {
+      title:       'AirTach SaaS Webflow Website Template',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.',
+      image:       '/images/project-3.jpg',
+      imageAlt:    'AirTach project screenshot',
+      tags:        ['Tag one', 'Tag two', 'Tag three'],
+      href:        '/portfolio/airtach',
+    },
+    {
+      title:       'AirFlow - SaaS Website Template',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.',
+      image:       '/images/project-4.jpg',
+      imageAlt:    'AirFlow project screenshot',
+      tags:        ['SaaS', 'Software', 'Webflow'],
+      href:        '/portfolio/airflow',
+    },
+  ],
+  cta = { label: 'Check the full Portfolio', href: '/portfolio' },
+} = Astro.props;
+
+const col1 = projects.filter((_, i) => i % 2 === 0);
+const col2 = projects.filter((_, i) => i % 2 !== 0);
+---
+
+<section class="projects">
+  <div class="projects__inner">
+
+    <!-- Cabecera centrada -->
+    <div class="projects__header">
+      <p class="projects__label">{label}</p>
+      <h2 class="projects__title">{title}</h2>
+      <p class="projects__subtitle">{subtitle}</p>
+    </div>
+
+    <!-- Grid de 2 columnas estilo masonry -->
+    <div class="projects__content">
+      <div class="projects__grid">
+        <div class="projects__col">
+          {col1.map(project => (
+            <div class="project-card">
+              <div class="project-card__image-wrap">
+                <img
+                  src={project.image}
+                  alt={project.imageAlt}
+                  class="project-card__image"
+                  width="632"
+                  height="356"
+                  loading="lazy"
+                />
+              </div>
+              <div class="project-card__body">
+                <div class="project-card__text">
+                  <h3 class="project-card__title">{project.title}</h3>
+                  <p class="project-card__description">{project.description}</p>
+                </div>
+                <div class="project-card__tags">
+                  {project.tags.map(tag => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+                <div class="project-card__actions">
+                  <a href={project.href} class="btn-link">
+                    View project
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="projects__col projects__col--offset">
+          {col2.map(project => (
+            <div class="project-card">
+              <div class="project-card__image-wrap">
+                <img
+                  src={project.image}
+                  alt={project.imageAlt}
+                  class="project-card__image"
+                  width="632"
+                  height="356"
+                  loading="lazy"
+                />
+              </div>
+              <div class="project-card__body">
+                <div class="project-card__text">
+                  <h3 class="project-card__title">{project.title}</h3>
+                  <p class="project-card__description">{project.description}</p>
+                </div>
+                <div class="project-card__tags">
+                  {project.tags.map(tag => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+                <div class="project-card__actions">
+                  <a href={project.href} class="btn-link">
+                    View project
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <a href={cta.href} class="btn-primary">{cta.label}</a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .projects {
+    width: 100%;
+    background-color: var(--color-white);
+  }
+
+  .projects__inner {
+    max-width: var(--width-container);
+    margin-inline: auto;
+    padding-inline: var(--spacing-64);
+    padding-block: var(--spacing-112);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-80);
+  }
+
+  /* ── Cabecera ──────────────────────────── */
+  .projects__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-24);
+    text-align: center;
+    max-width: var(--width-text);
+    margin-inline: auto;
+  }
+
+  .projects__label {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .projects__title {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-5xl);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .projects__subtitle {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-md);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  /* ── Contenido ─────────────────────────── */
+  .projects__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-64);
+  }
+
+  .projects__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-48);
+    width: 100%;
+    max-width: var(--width-content);
+  }
+
+  .projects__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-32);
+  }
+
+  /* Segunda columna desplazada hacia abajo (efecto masonry) */
+  .projects__col--offset {
+    margin-top: var(--spacing-60);
+  }
+
+  /* ── Tarjeta ───────────────────────────── */
+  .project-card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .project-card__image-wrap {
+    height: 356px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .project-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .project-card:hover .project-card__image {
+    transform: scale(1.03);
+  }
+
+  .project-card__body {
+    padding: var(--spacing-24);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .project-card__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+    color: var(--color-black);
+  }
+
+  .project-card__title {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .project-card__description {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .project-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-8);
+    padding-top: var(--spacing-16);
+  }
+
+  .project-card__actions {
+    padding-top: var(--spacing-24);
+  }
+
+  /* ── Responsive ────────────────────────── */
+  @media (max-width: 1024px) {
+    .projects__grid { gap: var(--spacing-32); }
+    .projects__col--offset { margin-top: var(--spacing-32); }
+    .project-card__image-wrap { height: 260px; }
+    .projects__title { font-size: var(--font-size-4xl); }
+  }
+
+  @media (max-width: 768px) {
+    .projects__inner { padding-inline: var(--spacing-24); padding-block: var(--spacing-64); }
+    .projects__grid  { grid-template-columns: 1fr; }
+    .projects__col--offset { margin-top: 0; }
+    .projects__title { font-size: var(--font-size-3xl); }
+  }
+</style>

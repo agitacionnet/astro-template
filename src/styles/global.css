@@ -1,0 +1,348 @@
+/* src/styles/global.css */
+/* Sistema de diseño Airfolio — Tailwind CSS v4 + Astro */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   DESIGN TOKENS — mapeados desde Figma (Airfolio)
+   En Tailwind v4 los tokens van en @theme (no tailwind.config)
+   Se usan como clases utilitarias: bg-green-13, text-black...
+───────────────────────────────────────────────────────────── */
+@theme {
+
+  /* ── FUENTES ─────────────────────────────────────────────── */
+  --font-sans: 'Inter', sans-serif;
+
+  /* ── COLORES BASE ────────────────────────────────────────── */
+  --color-black:       #1C1C57;   /* Token: Black — azul marino oscuro */
+  --color-white:       #FFFFFF;   /* Token: White */
+  --color-light-grey:  #F4F4F4;   /* Token: Light Grey */
+
+  /* ── FOUNDATION / BLUE ───────────────────────────────────── */
+  --color-blue-1:      #FFFFFF;
+  --color-blue-2:      #FDFDFF;
+  --color-blue-3:      #F6F8FF;   /* fondo secciones claro */
+  --color-blue-4:      #F2F5FF;
+  --color-blue-5:      #DEE6FE;
+  --color-blue-6:      #C9D6FE;
+  --color-blue-7:      #9DB5FC;
+  --color-blue-13:     #255BF9;   /* azul CTA / links */
+
+  /* ── FOUNDATION / GREEN ──────────────────────────────────── */
+  --color-green-4:     #F0F8F8;   /* fondo FAQ card */
+  --color-green-13:    #078D84;   /* botones primarios */
+
+  /* ── ESCALA TIPOGRÁFICA ──────────────────────────────────── */
+  --font-size-tiny:    0.75rem;   /* fontSize/0  — 12px */
+  --font-size-sm:      0.875rem;  /* fontSize/1  — 14px */
+  --font-size-base:    1rem;      /* fontSize/2  — 16px */
+  --font-size-md:      1.125rem;  /* fontSize/3  — 18px */
+  --font-size-lg:      1.25rem;   /* fontSize/4  — 20px — H6 */
+  --font-size-xl:      1.5rem;    /* fontSize/5  — 24px — H5 */
+  --font-size-2xl:     2rem;      /* fontSize/7  — 32px — H4 */
+  --font-size-3xl:     2.25rem;   /* fontSize/8  — 36px — H3 */
+  --font-size-4xl:     2.5rem;    /* fontSize/9  — 40px — H2 medium */
+  --font-size-5xl:     3rem;      /* fontSize/10 — 48px — H2 bold */
+  --font-size-6xl:     3.5rem;    /* fontSize/11 — 56px — H1 */
+
+  /* ── LETTER SPACING ──────────────────────────────────────── */
+  --letter-spacing-tight: -0.82px;
+
+  /* ── BORDER RADIUS ───────────────────────────────────────── */
+  --radius-sm:    4px;
+  --radius-md:    8px;
+  --radius-lg:    16px;
+  --radius-xl:    32px;
+  --radius-full:  9999px;
+
+  /* ── SOMBRAS ─────────────────────────────────────────────── */
+  --shadow-sm:
+    0px 1px 2px 0px rgba(16, 24, 40, 0.06),
+    0px 1px 3px 0px rgba(16, 24, 40, 0.10);
+  --shadow-md:
+    0px 2px 4px -2px rgba(16, 24, 40, 0.06),
+    0px 4px 8px -2px rgba(16, 24, 40, 0.10);
+
+  /* ── ESPACIADO ───────────────────────────────────────────── */
+  --spacing-4:    4px;
+  --spacing-8:    8px;
+  --spacing-12:   12px;
+  --spacing-16:   16px;
+  --spacing-20:   20px;
+  --spacing-24:   24px;
+  --spacing-32:   32px;
+  --spacing-40:   40px;
+  --spacing-48:   48px;
+  --spacing-60:   60px;
+  --spacing-64:   64px;
+  --spacing-80:   80px;
+  --spacing-112:  112px;
+  --spacing-128:  128px;
+
+  /* ── ANCHOS MÁXIMOS ──────────────────────────────────────── */
+  --width-container: 1440px;
+  --width-content:   1312px;
+  --width-text:      768px;
+
+}
+
+/* ─────────────────────────────────────────────────────────────
+   COMPONENTES — clases reutilizables del sistema
+───────────────────────────────────────────────────────────── */
+@layer components {
+
+  /* ── TIPOGRAFÍA ──────────────────────────────────────────── */
+
+  .heading-h1 {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-6xl);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-black);
+  }
+
+  .heading-h2 {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-4xl);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-black);
+  }
+
+  .heading-h2-bold {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-5xl);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-black);
+  }
+
+  .heading-h3 {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-3xl);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-black);
+  }
+
+  .heading-h4 {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--color-black);
+  }
+
+  .heading-h5 {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--color-black);
+  }
+
+  .heading-h6 {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.8px;
+    color: var(--color-black);
+  }
+
+  .text-body-lg {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-md);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .text-body {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .text-body-semibold {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .text-small {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .text-small-bold {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .text-tiny {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-tiny);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* ── BOTONES ─────────────────────────────────────────────── */
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-16) var(--spacing-24);
+    background-color: var(--color-green-13);
+    color: var(--color-white);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-16) var(--spacing-24);
+    background-color: transparent;
+    color: var(--color-green-13);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+    border-radius: var(--radius-md);
+    border: 1.02px solid var(--color-green-13);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .btn-secondary:hover { background-color: var(--color-green-4); }
+
+  .btn-primary-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-16) var(--spacing-24);
+    background-color: var(--color-white);
+    color: var(--color-black);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .btn-primary-dark:hover { opacity: 0.9; }
+
+  .btn-secondary-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-16) var(--spacing-24);
+    background-color: transparent;
+    color: var(--color-white);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+    border-radius: var(--radius-md);
+    border: 1.02px solid var(--color-white);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .btn-secondary-dark:hover { background-color: rgba(255,255,255,0.1); }
+
+  .btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    color: var(--color-blue-13);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+    background: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .btn-link:hover { text-decoration: underline; }
+
+  /* ── TAGS ────────────────────────────────────────────────── */
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px var(--spacing-8);
+    background-color: var(--color-light-grey);
+    color: var(--color-black);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  /* ── CARDS ───────────────────────────────────────────────── */
+
+  .card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-xl {
+    background-color: var(--color-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* ── LAYOUT ──────────────────────────────────────────────── */
+
+  .section {
+    width: 100%;
+    max-width: var(--width-container);
+    margin-inline: auto;
+    padding-inline: var(--spacing-80);
+    padding-block: var(--spacing-112);
+  }
+
+  .section-inner {
+    max-width: var(--width-content);
+    margin-inline: auto;
+  }
+
+  .section-text {
+    max-width: var(--width-text);
+    margin-inline: auto;
+  }
+
+}

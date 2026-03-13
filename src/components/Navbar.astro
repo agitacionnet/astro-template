@@ -1,0 +1,341 @@
+---
+// src/components/Navbar.astro
+
+export interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const links = [
+  { label: 'About Us',  href: '/about' },
+  { label: 'Services',  href: '/services' },
+  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Cart(0)',   href: '/cart' },
+];
+
+const dropdownLinks = [
+  { label: 'Blog',             href: '/blog' },
+  { label: 'Blog Post',        href: '/blog/post' },
+  { label: 'Portfolio Single', href: '/portfolio/single' },
+  { label: 'Styleguide',       href: '/styleguide' },
+];
+---
+
+<header class="navbar">
+  <div class="navbar__inner">
+
+    <!-- Logo -->
+    <a href="/" class="navbar__logo" aria-label="Airfolio home">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="16" fill="#EEF2FF"/>
+        <path d="M8 22L14 10L20 22" stroke="#255BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M19 18H23L20 10" stroke="#078D84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="navbar__logo-text">Airfolio</span>
+    </a>
+
+    <!-- Nav desktop -->
+    <nav class="navbar__nav" id="navbar-nav" aria-label="Main navigation">
+      {links.map(link => (
+        <a
+          href={link.href}
+          class:list={['navbar__link', { 'is-active': currentPath === link.href }]}
+        >
+          {link.label}
+        </a>
+      ))}
+
+      <!-- Dropdown Pages -->
+      <div class="navbar__dropdown" id="navbar-dropdown">
+        <button
+          class="navbar__link navbar__dropdown-trigger"
+          aria-expanded="false"
+          aria-controls="dropdown-menu"
+          id="dropdown-btn"
+        >
+          Pages
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="navbar__dropdown-menu" id="dropdown-menu" role="menu" hidden>
+          {dropdownLinks.map(link => (
+            <a href={link.href} class="navbar__dropdown-link" role="menuitem">{link.label}</a>
+          ))}
+        </div>
+      </div>
+    </nav>
+
+    <!-- CTA desktop -->
+    <a href="/contact" class="btn-primary navbar__cta">Hire Me</a>
+
+    <!-- Botón hamburguesa (solo mobile) -->
+    <button
+      class="navbar__hamburger"
+      id="hamburger-btn"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      aria-controls="navbar-nav"
+    >
+      <span class="navbar__hamburger-line"></span>
+      <span class="navbar__hamburger-line"></span>
+      <span class="navbar__hamburger-line"></span>
+    </button>
+
+  </div>
+
+  <!-- Menú mobile (se expande debajo del header) -->
+  <div class="navbar__mobile-menu" id="mobile-menu" hidden>
+    <nav class="navbar__mobile-nav" aria-label="Mobile navigation">
+      {links.map(link => (
+        <a
+          href={link.href}
+          class:list={['navbar__mobile-link', { 'is-active': currentPath === link.href }]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <div class="navbar__mobile-section-title">Pages</div>
+      {dropdownLinks.map(link => (
+        <a href={link.href} class="navbar__mobile-link navbar__mobile-link--sub">{link.label}</a>
+      ))}
+      <a href="/contact" class="btn-primary navbar__mobile-cta">Hire Me</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .navbar__inner {
+    max-width: var(--width-container);
+    margin-inline: auto;
+    padding-inline: var(--spacing-80);
+    height: 80px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-40);
+  }
+
+  /* ── Logo ──────────────────────────────── */
+  .navbar__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-8);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .navbar__logo-text {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    color: var(--color-black);
+  }
+
+  /* ── Nav desktop ───────────────────────── */
+  .navbar__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-32);
+    flex: 1;
+  }
+
+  .navbar__link {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    color: var(--color-black);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .navbar__link:hover,
+  .navbar__link.is-active { color: var(--color-green-13); }
+
+  /* ── Dropdown ──────────────────────────── */
+  .navbar__dropdown { position: relative; }
+
+  .navbar__dropdown-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-8) 0;
+    min-width: 200px;
+    z-index: 200;
+  }
+  .navbar__dropdown-menu[hidden] { display: none; }
+
+  .navbar__dropdown-link {
+    display: block;
+    padding: var(--spacing-8) var(--spacing-16);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    color: var(--color-black);
+    text-decoration: none;
+    transition: background-color 0.15s;
+  }
+  .navbar__dropdown-link:hover { background-color: var(--color-blue-3); }
+
+  /* ── CTA desktop ───────────────────────── */
+  .navbar__cta { margin-left: auto; flex-shrink: 0; }
+
+  /* ── Hamburguesa ───────────────────────── */
+  .navbar__hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-8);
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  .navbar__hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-black);
+    border-radius: 2px;
+    transition: transform 0.25s, opacity 0.25s;
+    transform-origin: center;
+  }
+
+  /* Estado abierto del hamburger → X */
+  .navbar__hamburger.is-open .navbar__hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .navbar__hamburger.is-open .navbar__hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .navbar__hamburger.is-open .navbar__hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ── Menú mobile ───────────────────────── */
+  .navbar__mobile-menu {
+    background-color: var(--color-white);
+    border-top: 1px solid var(--color-blue-5);
+  }
+  .navbar__mobile-menu[hidden] { display: none; }
+
+  .navbar__mobile-nav {
+    max-width: var(--width-container);
+    margin-inline: auto;
+    padding-inline: var(--spacing-24);
+    padding-block: var(--spacing-24);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+  }
+
+  .navbar__mobile-link {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-md);
+    font-weight: 400;
+    color: var(--color-black);
+    text-decoration: none;
+    padding-block: var(--spacing-12);
+    border-bottom: 1px solid var(--color-blue-4);
+    transition: color 0.15s;
+  }
+  .navbar__mobile-link:hover,
+  .navbar__mobile-link.is-active { color: var(--color-green-13); }
+
+  .navbar__mobile-link--sub {
+    font-size: var(--font-size-base);
+    padding-left: var(--spacing-16);
+    color: #3E3E70;
+    border-bottom: none;
+  }
+
+  .navbar__mobile-section-title {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-black);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding-top: var(--spacing-8);
+  }
+
+  .navbar__mobile-cta {
+    margin-top: var(--spacing-16);
+    text-align: center;
+  }
+
+  /* ── Responsive ────────────────────────── */
+  @media (max-width: 768px) {
+    .navbar__inner {
+      padding-inline: var(--spacing-24);
+      gap: var(--spacing-16);
+    }
+    .navbar__nav  { display: none; }
+    .navbar__cta  { display: none; }
+    .navbar__hamburger { display: flex; }
+  }
+</style>
+
+<script>
+  // ── Hamburguesa ────────────────────────────────────────────────────────────
+  const hamburger   = document.getElementById('hamburger-btn')!;
+  const mobileMenu  = document.getElementById('mobile-menu')!;
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = hamburger.classList.toggle('is-open');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+    mobileMenu.hidden = !isOpen;
+  });
+
+  // Cierra al hacer clic en un link del menú mobile
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('is-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.hidden = true;
+    });
+  });
+
+  // ── Dropdown desktop ───────────────────────────────────────────────────────
+  const dropdownBtn  = document.getElementById('dropdown-btn')!;
+  const dropdownMenu = document.getElementById('dropdown-menu')!;
+
+  dropdownBtn.addEventListener('click', () => {
+    const isOpen = dropdownMenu.hidden;
+    dropdownMenu.hidden = !isOpen;
+    dropdownBtn.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // Cierra dropdown al hacer clic fuera
+  document.addEventListener('click', (e) => {
+    if (!dropdownBtn.contains(e.target as Node) && !dropdownMenu.contains(e.target as Node)) {
+      dropdownMenu.hidden = true;
+      dropdownBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+</script>
