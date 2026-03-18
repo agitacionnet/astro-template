@@ -8,10 +8,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 -d > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H 217.160.22.194 >> ~/.ssh/known_hosts
       - name: Deploy al servidor
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: 217.160.22.194
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: /root/deploy-astro.sh
+        run: ssh -i ~/.ssh/id_ed25519 root@217.160.22.194 "/root/deploy-astro.sh"
