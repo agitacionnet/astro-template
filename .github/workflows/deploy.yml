@@ -1,0 +1,17 @@
+name: Deploy Astro
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy al servidor
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: 217.160.22.194
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: /root/deploy-astro.sh
