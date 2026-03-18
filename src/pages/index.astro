@@ -10,10 +10,10 @@ import Projects from '../components/Projects.astro';
 import Testimonial from '../components/Testimonial.astro';
 import FAQ from '../components/FAQ.astro';
 import Footer from '../components/Footer.astro';
-import { getHomepage, getStrapiImageUrl } from '../lib/strapi';
+import { getHomepage, getServices, getStrapiImageUrl } from '../lib/strapi';
 
-// Obtiene datos de Strapi (si falla, usa los valores por defecto del componente)
 const homepage = await getHomepage();
+const services = await getServices();
 ---
 
 <Layout title={homepage?.heroTitle ?? 'Airfolio — Portfolio'}>
@@ -35,10 +35,11 @@ const homepage = await getHomepage();
         : undefined}
     />
     <Services
-  label={homepage?.servicesLabel ?? undefined}
-  title={homepage?.servicesTitle ?? undefined}
-  description={homepage?.servicesDescription ?? undefined}
-/>
+      label={homepage?.servicesLabel ?? undefined}
+      title={homepage?.servicesTitle ?? undefined}
+      description={homepage?.servicesDescription ?? undefined}
+      services={services.length > 0 ? services : undefined}
+    />
     <About />
     <Experience />
     <Projects />

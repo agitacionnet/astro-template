@@ -38,7 +38,15 @@ export interface Homepage {
   servicesTitle:         string | null;
   servicesDescription:   string | null;
 }
-
+// para las cards del listado de servicios
+export interface Service {
+  id: number;
+  documentId: string;
+  title: string | null;
+  description: string | null;
+  icon: StrapiImage | null;
+  order: number | null;
+}
 // ─── Fetch base ────────────────────────────────────────────────────────────────
 
 async function strapiRequest<T>(
@@ -77,6 +85,19 @@ export async function getHomepage(): Promise<Homepage | null> {
   } catch {
     console.warn('Homepage no disponible en Strapi, usando valores por defecto.');
     return null;
+  }
+}
+// ─── Services ──────────────────────────────────────────────────────────────────
+export async function getServices(): Promise<Service[]> {
+  try {
+    const res = await strapiRequest<{ data: Service[] }>('/services', {
+      'populate': 'icon',
+      'sort': 'order:asc',
+    });
+    return res.data ?? [];
+  } catch {
+    console.warn('Services no disponibles en Strapi, usando valores por defecto.');
+    return [];
   }
 }
 
