@@ -37,6 +37,11 @@ export interface Homepage {
   servicesLabel:         string | null;
   servicesTitle:         string | null;
   servicesDescription:   string | null;
+  aboutLabel:       string | null;
+  aboutTitle:       string | null;
+  aboutDescription: string | null;
+  aboutImage:       StrapiImage | null;
+  aboutAltImage:    string | null;
 }
 // para las cards del listado de servicios
 export interface Service {
@@ -75,11 +80,10 @@ export function getStrapiImageUrl(
 }
 
 // ─── Homepage ──────────────────────────────────────────────────────────────────
-
 export async function getHomepage(): Promise<Homepage | null> {
   try {
     const res = await strapiRequest<{ data: Homepage[] }>('/homepages', {
-      'populate': 'heroImage',
+      'populate': 'heroImage,aboutImage',
     });
     return res.data?.[0] ?? null;
   } catch {
@@ -87,6 +91,8 @@ export async function getHomepage(): Promise<Homepage | null> {
     return null;
   }
 }
+
+
 // ─── Services ──────────────────────────────────────────────────────────────────
 export async function getServices(): Promise<Service[]> {
   try {

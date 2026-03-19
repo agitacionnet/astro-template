@@ -40,7 +40,14 @@ const services = await getServices();
       description={homepage?.servicesDescription ?? undefined}
       services={services.length > 0 ? services : undefined}
     />
-    <About />
+    
+    <About
+      label={homepage?.aboutLabel ?? undefined}
+      title={homepage?.aboutTitle ?? undefined}
+      description={homepage?.aboutDescription ?? undefined}
+      image={homepage?.aboutImage ? getStrapiImageUrl(homepage.aboutImage, 'large') : undefined}
+      imageAlt={homepage?.aboutAltImage ?? undefined}
+    />
     <Experience />
     <Projects />
     <Testimonial />
