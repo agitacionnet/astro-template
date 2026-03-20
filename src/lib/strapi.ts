@@ -76,7 +76,9 @@ export function getStrapiImageUrl(
 ): string {
   if (!image) return '/images/placeholder.jpg';
   const formatUrl = image.formats?.[format]?.url ?? image.url;
-  return formatUrl.startsWith('http') ? formatUrl : `${STRAPI_URL}${formatUrl}`;
+  if (formatUrl.startsWith('http')) return formatUrl;
+  const publicUrl = import.meta.env.PUBLIC_STRAPI_URL ?? STRAPI_URL;
+  return `${publicUrl}${formatUrl}`;
 }
 
 // ─── Homepage ──────────────────────────────────────────────────────────────────
