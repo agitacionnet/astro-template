@@ -83,7 +83,7 @@ export function getStrapiImageUrl(
 export async function getHomepage(): Promise<Homepage | null> {
   try {
     const res = await strapiRequest<{ data: Homepage[] }>('/homepages', {
-      'populate': 'heroImage,aboutImage',
+      'populate': '*',
     });
     return res.data?.[0] ?? null;
   } catch {
